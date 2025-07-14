@@ -68,14 +68,14 @@ const RightSidebar = () => {
   ];
 
   // Contacts data with profile images
-  const contacts = [
-    { name: 'Natali Craig', image: profileImages.natali },
-    { name: 'Drew Cano', image: profileImages.drew },
-    { name: 'Andi Lane', image: profileImages.andi },
-    { name: 'Koray Okumus', image: profileImages.koray },
-    { name: 'Kate Morrison', image: profileImages.kate },
-    { name: 'Melody Macy', image: profileImages.melody }
-  ];
+const contacts = [
+    { name: 'Priya Sharma', image: profileImages.natali },
+    { name: 'Rahul Patel', image: profileImages.drew },
+    { name: 'Ananya Gupta', image: profileImages.andi },
+    { name: 'Arjun Singh', image: profileImages.koray },
+    { name: 'Divya Iyer', image: profileImages.kate },
+    { name: 'Vikram Joshi', image: profileImages.melody }
+];
 
   return (
     <aside className="w-80 bg-white border-l border-gray-200 px-6 py-2 text-sm overflow-y-auto h-screen sticky top-0">

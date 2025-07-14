@@ -1,7 +1,11 @@
 import axios from 'axios';
 
 // ✅ Dynamic base URL (from .env or fallback)
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
+const API_URL = import.meta.env.VITE_API_URL || 'https://insightlytics-backend.onrender.com/api';
+
+
 
 // ✅ Create axios instance
 const api = axios.create({

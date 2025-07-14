@@ -42,7 +42,7 @@ const Register = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#DCDCDC] flex items-center justify-center px-4 py-3 overflow-hidden">
+    <div className="w-full min-h-screen bg-[#DCDCDC] flex items-center justify-center px-4 overflow-hidden">
       {/* White container */}
       <div className="w-full max-w-[1440px] bg-white flex flex-col lg:flex-row items-start justify-start overflow-hidden">
         {/* Left: Image */}

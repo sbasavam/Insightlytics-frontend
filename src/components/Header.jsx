@@ -12,6 +12,12 @@ const Header = ({
   toggleLeftSidebar, 
   toggleRightSidebar 
 }) => {
+    const handleLogout = () => {
+    // You can replace this with your actual logout logic
+    console.log("Logging out...");
+    localStorage.clear(); // Example: clearing user data
+    window.location.href = "/login"; // Redirect to login page
+  };
   return (
     <header className="h-14 bg-white border-b border-gray-200 px-4 flex items-center justify-between">
       {/* Left side - toggle left sidebar button and breadcrumb */}
@@ -30,6 +36,7 @@ const Header = ({
           src={StarIcon} 
           alt="Star"
           className="w-4 h-4"
+            onClick={handleLogout}
         />
         <div className="text-sm text-gray-600">
           Dashboards / <span className="font-semibold text-gray-800">Default</span>

@@ -5,6 +5,8 @@ import RightSidebar from "../components/RightSidebar";
 import MainDashboard from "../components/MainDashboard";
 
 const Dashboard = () => {
+
+
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(true);
   const [rightSidebarOpen, setRightSidebarOpen] = useState(true);
 

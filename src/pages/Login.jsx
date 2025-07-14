@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { login } from "../services/Api";
+import { login as loginApi } from "../services/Api";
+import { AuthContext } from "../context/AuthContext";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import image from "../assets/GirlReading.png";
@@ -14,19 +15,28 @@ const Login = () => {
     formState: { errors },
     setError,
   } = useForm();
+
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await login(data);
-      localStorage.setItem("token", response.data.access_token);
+      const response = await loginApi(data);
+      const { access_token, user_id } = response.data;
+
+      // ✅ Store token using AuthContext
+      login(access_token);
+      localStorage.setItem("user_id", user_id);
+
+      // ✅ Navigate to dashboard
       navigate("/dashboard");
     } catch (error) {
       setError("root", {
         type: "manual",
-        message: "Invalid username or password",
+        message:
+          error?.response?.data?.error || "Invalid email or password",
       });
     } finally {
       setIsLoading(false);
@@ -34,10 +44,9 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#DCDCDC] border border-[#0000001A] rounded-[2px] flex items-center justify-center overflow-hidden">
-      {/* White container */}
-      <div className="w-full max-w-[1440px] bg-white flex flex-col md:flex-row items-start justify-start  overflow-hidden">
-        {/* Left: Image Container attached to top-left of white container */}
+    <div className="w-full min-h-screen flex items-center justify-center overflow-hidden">
+      <div className="w-full max-w-[1440px] bg-white flex flex-col md:flex-row items-start justify-start overflow-hidden">
+        {/* Left: Image Section */}
         <div className="w-full lg:w-[673px] flex justify-start items-start">
           <img
             src={image}
@@ -46,7 +55,7 @@ const Login = () => {
           />
         </div>
 
-        {/* Right: Form Container */}
+        {/* Right: Form Section */}
         <div className="w-full lg:w-[519px] flex items-center justify-center py-10 px-6">
           <div className="w-full max-w-[360px] flex flex-col justify-between">
             <div>
@@ -54,7 +63,7 @@ const Login = () => {
                 Welcome back.
               </h2>
 
-              {/* Google Sign In */}
+              {/* Google Sign-In (UI only) */}
               <button
                 type="button"
                 className="w-full flex items-center justify-start gap-3 text-white bg-[#1A73E8] hover:bg-blue-700 font-medium py-2.5 px-4 rounded-[8px] mb-4"
@@ -74,26 +83,27 @@ const Login = () => {
                 <div className="flex-grow h-px bg-gray-300" />
               </div>
 
-              {/* Form */}
+              {/* Login Form */}
               <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
                 {errors.root && (
                   <div className="text-red-600 text-sm text-center mb-2">
                     {errors.root.message}
                   </div>
                 )}
+
                 <Input
                   label="Email address"
                   {...register("email", { required: "Email is required" })}
-                  error={errors.username?.message}
+                  error={errors.email?.message}
                 />
+
                 <Input
                   label="Password"
                   type="password"
-                  {...register("password", {
-                    required: "Password is required",
-                  })}
+                  {...register("password", { required: "Password is required" })}
                   error={errors.password?.message}
                 />
+
                 <div className="flex items-center justify-between text-sm">
                   <label className="flex items-center">
                     <input type="checkbox" className="mr-2" />
@@ -106,6 +116,7 @@ const Login = () => {
                     Forgot password?
                   </a>
                 </div>
+
                 <Button
                   type="submit"
                   className="w-full rounded-md"

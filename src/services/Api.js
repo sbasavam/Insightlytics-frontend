@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-// ✅ Correct way to access Vite env variables
-const API_URL =  'http://localhost:5000/api';
+// ✅ Dynamic base URL (from .env or fallback)
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
+// ✅ Create axios instance
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -10,18 +11,45 @@ const api = axios.create({
   },
 });
 
-// ✅ Attach JWT token (optional if you use auth headers)
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+// ✅ Request interceptor to attach token automatically
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
-// ✅ Corrected endpoints to match your Flask backend
-export const signup = (data) => api.post('/signup', data);            // /signup not /register
+// ✅ Optional: Response interceptor to handle auth errors globally
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      window.location.pathname !== '/login'
+    ) {
+      // Optionally clear token and redirect
+      localStorage.removeItem('token');
+      localStorage.removeItem('user_id');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+// ✅ Auth APIs
+export const signup = (data) => api.post('/signup', data);
 export const login = (data) => api.post('/login', data);
-export const getDashboardData = () => api.get('/dashboard-data');     // /dashboard-data
+
+// ✅ Dashboard or protected API calls
+export const getDashboardData = () => api.get('/dashboard-stats');
+export const getUserGrowthData = () => api.get('/user-growth');
+export const getTrafficByDevice = () => api.get('/traffic-by-device');
+export const getTrafficByLocation = () => api.get('/traffic-by-location');
+export const getUserById = (id) => api.get(`/user/${id}`); // Requires token
 
 export default api;

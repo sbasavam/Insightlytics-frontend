@@ -74,7 +74,7 @@ const contacts = [
     { name: 'Ananya Gupta', image: profileImages.andi },
     { name: 'Arjun Singh', image: profileImages.koray },
     { name: 'Divya Iyer', image: profileImages.kate },
-    { name: 'Vikram Joshi', image: profileImages.melody }
+    { name: 'Yakshini Joshi', image: profileImages.melody }
 ];
 
   return (

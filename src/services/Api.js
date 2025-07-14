@@ -47,13 +47,12 @@ api.interceptors.response.use(
 
 // ✅ Auth APIs
 export const signup = (data) => api.post('/signup', data);
-export const login = (data) => api.post('/login', data);
+export const login = (data) => api.post('/signin', data);
 
 // ✅ Dashboard or protected API calls
 export const getDashboardData = () => api.get('/dashboard-stats');
 export const getUserGrowthData = () => api.get('/user-growth');
 export const getTrafficByDevice = () => api.get('/traffic-by-device');
 export const getTrafficByLocation = () => api.get('/traffic-by-location');
-export const getUserById = (id) => api.get(`/user/${id}`); // Requires token
 
 export default api;

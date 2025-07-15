@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { login as loginApi } from "../services/Api";
@@ -7,6 +7,7 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import image from "../assets/GirlReading.png";
 import google from "../assets/google.png";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const Login = () => {
   const {
@@ -18,7 +19,8 @@ const Login = () => {
 
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -26,17 +28,14 @@ const Login = () => {
       const response = await loginApi(data);
       const { access_token, user_id } = response.data;
 
-      // ✅ Store token using AuthContext
       login(access_token);
       localStorage.setItem("user_id", user_id);
 
-      // ✅ Navigate to dashboard
       navigate("/dashboard");
     } catch (error) {
       setError("root", {
         type: "manual",
-        message:
-          error?.response?.data?.error || "Invalid email or password",
+        message: error?.response?.data?.error || "Invalid email or password",
       });
     } finally {
       setIsLoading(false);
@@ -46,7 +45,7 @@ const Login = () => {
   return (
     <div className="w-full min-h-screen flex items-center justify-center overflow-hidden">
       <div className="w-full max-w-[1440px] bg-white flex flex-col md:flex-row items-start justify-start overflow-hidden">
-        {/* Left: Image Section */}
+        {/* Left: Image */}
         <div className="w-full lg:w-[673px] flex justify-start items-start">
           <img
             src={image}
@@ -55,7 +54,7 @@ const Login = () => {
           />
         </div>
 
-        {/* Right: Form Section */}
+        {/* Right: Form */}
         <div className="w-full lg:w-[519px] flex items-center justify-center py-10 px-6">
           <div className="w-full max-w-[360px] flex flex-col justify-between">
             <div>
@@ -97,12 +96,25 @@ const Login = () => {
                   error={errors.email?.message}
                 />
 
-                <Input
-                  label="Password"
-                  type="password"
-                  {...register("password", { required: "Password is required" })}
-                  error={errors.password?.message}
-                />
+                {/* Password with Eye Toggle */}
+                <div className="relative">
+                  <Input
+                    label="Password"
+                    type={showPassword ? "text" : "password"}
+                    {...register("password", {
+                      required: "Password is required",
+                    })}
+                    error={errors.password?.message}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-3 top-[42px] text-gray-600"
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                  </button>
+                </div>
 
                 <div className="flex items-center justify-between text-sm">
                   <label className="flex items-center">

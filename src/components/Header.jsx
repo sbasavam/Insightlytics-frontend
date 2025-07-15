@@ -13,9 +13,8 @@ const Header = ({
   toggleRightSidebar 
 }) => {
     const handleLogout = () => {
-    // You can replace this with your actual logout logic
     console.log("Logging out...");
-    localStorage.clear(); // Example: clearing user data
+    localStorage.clear(); 
     window.location.href = "/login"; // Redirect to login page
   };
   return (

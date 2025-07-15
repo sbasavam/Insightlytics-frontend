@@ -1,4 +1,3 @@
-// src/components/DashboardCards.jsx
 import React from "react";
 import ArrowRiseImg from "../../assets/MainContentIcons/ArrowRise.png";
 import ArrowFallImg from "../../assets/MainContentIcons/ArrowFall.png";

@@ -3,7 +3,7 @@ import BugBeetle from "../assets/RightSideBarIcons/BugBeetle.png";
 import Andi from "../assets/RightSideBarIcons/Andi.png";
 import NewUser from "../assets/RightSideBarIcons/new_user.png";
 
-// Sample image URLs (replace with your actual image paths if needed)
+// Sample image URLs 
 const profileImages = {
   natali: "https://randomuser.me/api/portraits/women/44.jpg",
   drew: "https://randomuser.me/api/portraits/men/32.jpg",

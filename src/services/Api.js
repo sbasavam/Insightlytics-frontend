@@ -1,13 +1,10 @@
 import axios from 'axios';
 
-// ✅ Dynamic base URL (from .env or fallback)
-// const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
-const API_URL = import.meta.env.VITE_API_URL || 'https://insightlytics-backend.onrender.com/api';
+//  Dynamic base URL 
+const API_URL = import.meta.env.VITE_API_URL
 
 
-
-// ✅ Create axios instance
+//  Create axios instance
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -15,7 +12,7 @@ const api = axios.create({
   },
 });
 
-// ✅ Request interceptor to attach token automatically
+//  Request interceptor to attach token automatically
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -27,7 +24,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ✅ Optional: Response interceptor to handle auth errors globally
+//  Optional: Response interceptor to handle auth errors globally
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -45,11 +42,11 @@ api.interceptors.response.use(
   }
 );
 
-// ✅ Auth APIs
+//  Auth APIs
 export const signup = (data) => api.post('/signup', data);
 export const login = (data) => api.post('/signin', data);
 
-// ✅ Dashboard or protected API calls
+//  Dashboard or protected API calls
 export const getDashboardData = () => api.get('/dashboard-stats');
 export const getUserGrowthData = () => api.get('/user-growth');
 export const getTrafficByDevice = () => api.get('/traffic-by-device');

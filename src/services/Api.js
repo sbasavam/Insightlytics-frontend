@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 //  Dynamic base URL 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL || "https://insightlytics-backend.onrender.com/api"
 
 
 //  Create axios instance
